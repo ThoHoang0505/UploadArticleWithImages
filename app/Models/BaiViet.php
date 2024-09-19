@@ -6,17 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class BaiViet extends Model
 {
-    // Đặt tên bảng nếu khác với tên mặc định (số nhiều của tên model)
-    protected $table = 'baiviet';
-
-    // Khai báo các thuộc tính có thể được gán giá trị hàng loạt
+    protected $table = 'baiviet'; // Tên bảng trong CSDL
     protected $fillable = [
         'TieuDeBT',
         'LoaiBT',
         'NoiDungBT',
         'AnhDaiDien',
+        'NgayDang',
     ];
-
-    // Tắt tính năng timestamps
+    // Tắt tính năng timestamps vì bạn đã có cột NgayDang
     public $timestamps = false;
 }
