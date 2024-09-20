@@ -6,7 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class BaiViet extends Model
 {
-    protected $table = 'baiviet'; // Tên bảng trong CSDL
+    protected $table = 'baiviet';
+
+    protected $primaryKey = 'MaBT';
+
     protected $fillable = [
         'TieuDeBT',
         'LoaiBT',
@@ -14,6 +17,7 @@ class BaiViet extends Model
         'AnhDaiDien',
         'NgayDang',
     ];
+
     // Tắt tính năng timestamps vì bạn đã có cột NgayDang
     public $timestamps = false;
 }

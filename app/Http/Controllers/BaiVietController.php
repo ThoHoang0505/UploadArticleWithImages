@@ -46,7 +46,10 @@ class BaiVietController extends Controller
     // Hiển thị danh sách bài viết
     public function index()
     {
-        $baiviets = BaiViet::all();
+        // Lấy tất cả bài viết từ bảng 'baiviet'
+        $baiviets = BaiViet::all(); // Bạn cũng có thể thêm paginate() nếu cần phân trang
+
+        // Trả về view và truyền biến $baiviets sang
         return view('baiviet.index', compact('baiviets'));
     }
     public function show($MaBT)
