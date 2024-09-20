@@ -7,13 +7,10 @@ use Illuminate\Http\Request;
 
 class BaiVietController extends Controller
 {
-    // Hiển thị form tạo bài viết
     public function create()
     {
-        return view('baiviet.create');
+        return view('baiviet.create'); // Trả về view tạo bài viết
     }
-
-    // Lưu bài viết mới vào cơ sở dữ liệu
     public function store(Request $request)
     {
         try {
@@ -42,19 +39,23 @@ class BaiVietController extends Controller
             return redirect()->route('baiviet.create')->with('error', 'Có lỗi xảy ra khi lưu bài viết: ' . $e->getMessage());
         }
     }
-
     // Hiển thị danh sách bài viết
     public function index()
     {
-        // Lấy tất cả bài viết từ bảng 'baiviet'
-        $baiviets = BaiViet::all(); // Bạn cũng có thể thêm paginate() nếu cần phân trang
-
-        // Trả về view và truyền biến $baiviets sang
+        // Lấy tất cả bài viết từ bảng 'baiviet' theo thứ tự ngày đăng
+        $baiviets = BaiViet::orderBy('NgayDang', 'desc')->get();
         return view('baiviet.index', compact('baiviets'));
     }
+
+    // Hiển thị chi tiết bài viết
     public function show($MaBT)
     {
         $baiviet = BaiViet::findOrFail($MaBT);
+    
+        // Tăng lượt xem mà không cập nhật timestamp
+        $baiviet->increment('luot_xem'); // Bỏ qua $updated_at
+    
         return view('baiviet.show', compact('baiviet'));
     }
+    
 }

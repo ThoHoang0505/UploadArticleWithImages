@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -27,20 +26,23 @@
                     <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
                         <!-- Hiển thị Tiêu đề -->
                         <h2 class="text-2xl font-semibold mb-2">{{ $baiviet->TieuDeBT }}</h2>
-
-                        <!-- Hiển thị Loại bài viết -->
-                        <p class="text-gray-600 mb-4">{{ $baiviet->LoaiBT }}</p>
-
+                        <!-- Hiển thị Loại bài viết và Thời gian đăng -->
+                        <p class="text-gray-600 mb-4">
+                            {{ $baiviet->LoaiBT }} - 
+                            {{ \Carbon\Carbon::parse($baiviet->NgayDang)->format('d/m/Y H:i') }}
+                        </p>
                         <!-- Hiển thị Ảnh đại diện -->
                         @if($baiviet->AnhDaiDien)
                             <img src="{{ asset('storage/' . $baiviet->AnhDaiDien) }}" alt="Ảnh đại diện" class="w-full h-40 object-cover mb-4">
                         @endif
 
                         <!-- Lọc và hiển thị nội dung thẻ <h2> -->
-                            <div class="prose line-clamp-3">
-                                {!! strip_tags(Str::limit($baiviet->NoiDungBT, 150)) !!}
-                            </div>
-                        <!-- Nút xem chi tiết -->
+                        <div class="prose line-clamp-3">
+                            <?php 
+                                preg_match('/<h2>(.*?)<\/h2>/', $baiviet->NoiDungBT, $matches);
+                                echo isset($matches[1]) ? $matches[1] : 'Nội dung không có tiêu đề.';
+                            ?>
+                        </div>
                         <a href="{{ route('baiviet.show', ['MaBT' => $baiviet->MaBT]) }}" class="text-blue-500 mt-4 inline-block">Xem chi tiết</a>
                     </div>
                 @endforeach
