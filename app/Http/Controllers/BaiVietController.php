@@ -25,7 +25,6 @@ class BaiVietController extends Controller
             if ($request->hasFile('AnhDaiDien')) {
                 $pathImage = $request->file('AnhDaiDien')->store('images', 'public');
             }
-
             BaiViet::create([
                 'TieuDeBT' => $request->TieuDeBT,
                 'LoaiBT' => $request->LoaiBT,
