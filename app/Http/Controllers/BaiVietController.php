@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BaiViet;
 use Illuminate\Http\Request;
+use App\Models\Comment;
 
 class BaiVietController extends Controller
 {
@@ -47,14 +48,17 @@ class BaiVietController extends Controller
     }
 
     // Hiển thị chi tiết bài viết
-    public function show($MaBT)
+    public function show($maBT)
     {
-        $baiviet = BaiViet::findOrFail($MaBT);
+        $baiviet = BaiViet::findOrFail($maBT);
     
-        // Tăng lượt xem mà không cập nhật timestamp
-        $baiviet->increment('luot_xem'); // Bỏ qua $updated_at
+        // Tăng lượt xem
+        $baiviet->luot_xem++;
+        $baiviet->save();
     
-        return view('baiviet.show', compact('baiviet'));
+        // Lấy các bình luận liên quan
+        $comments = Comment::where('MaBT', $maBT)->with('user')->get();
+    
+        return view('baiviet.show', compact('baiviet', 'comments'));
     }
-    
 }

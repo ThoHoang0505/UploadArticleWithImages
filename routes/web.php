@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BaiVietController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommentController;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('welcome');
@@ -18,6 +20,11 @@ Route::get('/dangky', [AuthController::class, 'showRegistrationForm'])->name('re
 Route::post('/dangky', [AuthController::class, 'register'])->name('register');
 Route::get('/dangnhap', [AuthController::class, 'showLoginForm'])->name('dangnhap');
 Route::post('/dangnhap', [AuthController::class, 'login'])->name('login');
-Route::post('/dangxuat', [AuthController::class, 'logout'])->name('logout');
+Route::post('/dangxuat', function () {
+    Auth::logout();
+    return redirect()->route('baiviet.index'); // Chuyển hướng về trang index
+})->name('dangxuat');
+//Binh luan ban tin
+Route::post('/baiviet/{maBT}/comment', [CommentController::class, 'store'])->name('comments.store');
 // Route upload CKEditor
 Route::post('/upload', [HomeController::class, 'upload'])->name('ckeditor.upload');

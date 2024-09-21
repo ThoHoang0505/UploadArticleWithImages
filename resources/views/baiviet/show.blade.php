@@ -31,6 +31,38 @@
             {!! $baiviet->NoiDungBT !!}
         </div>
 
+        <!-- Hiển thị thông báo thành công -->
+        @if (session('success'))
+            <div class="bg-green-500 text-white p-4 rounded mb-4">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <!-- Phần bình luận -->
+        <h2 class="text-2xl mb-4">Bình luận</h2>
+
+        @if($comments->isEmpty())
+            <p>Chưa có bình luận nào.</p>
+        @else
+            @foreach($comments as $comment)
+                <div class="border p-4 mb-2 rounded bg-gray-50">
+                    <p class="font-bold">{{ $comment->user ? $comment->user->TenDangNhap : 'Người dùng ẩn danh' }}:</p>
+                    <p>{{ $comment->NoiDung }}</p>
+                    <p class="text-gray-500 text-sm mt-1">Đăng lúc: {{ $comment->created_at->format('H:i d/m/Y') }}</p>
+                </div>
+            @endforeach
+        @endif
+        <!-- Form bình luận -->
+        @auth
+            <form action="{{ route('comments.store', $baiviet->MaBT) }}" method="POST" class="mt-4">
+                @csrf
+                <textarea name="NoiDung" rows="3" class="w-full border rounded p-2" placeholder="Nhập bình luận..."></textarea>
+                <button type="submit" class="mt-2 inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">Bình luận</button>
+            </form>
+        @else
+            <p class="mt-4">Bạn cần <a href="{{ route('login') }}" class="text-blue-500 underline">đăng nhập</a> để bình luận.</p>
+        @endauth
+
         <!-- Nút quay về trang index dưới cùng -->
         <div class="mt-8 text-center">
             <a href="{{ route('baiviet.index') }}" class="inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">

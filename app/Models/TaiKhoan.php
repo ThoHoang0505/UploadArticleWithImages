@@ -2,19 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Auth\Authenticatable as AuthenticatableTrait;
 
-class TaiKhoan extends Model
+class TaiKhoan extends Model implements Authenticatable
 {
+    use AuthenticatableTrait; // Thêm trait này
+
     protected $table = 'taikhoan';
     protected $primaryKey = 'MaTK';
+    protected $fillable = ['TenDangNhap', 'MatKhau', 'Quyen'];
 
-    protected $fillable = [
-        'TenDangNhap',
-        'MatKhau',
-        'Quyen',
-    ];
-
-    public $timestamps = false; // Tắt timestamps nếu không dùng
+    public $timestamps = false; // Nếu bạn không có timestamps
 }
-

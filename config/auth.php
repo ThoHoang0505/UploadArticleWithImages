@@ -62,7 +62,9 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\TaiKhoan::class, // Sử dụng model TaiKhoan
+            'model' => App\Models\TaiKhoan::class,
+            'table' => 'taikhoan', // Bảng của bạn
+            'password' => 'MatKhau', // Cột mật khẩu của bạn
         ],
     ],
 

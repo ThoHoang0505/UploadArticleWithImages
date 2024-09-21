@@ -22,4 +22,8 @@ class BaiViet extends Model
         'NgayDang',
         'luot_xem',
     ];
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'MaBT');
+    }
 }
