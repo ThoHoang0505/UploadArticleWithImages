@@ -19,7 +19,11 @@ class CommentController extends Controller
         $comment->NoiDung = $request->NoiDung;
         $comment->save();
     
-        return redirect()->route('baiviet.show', $maBT)->with('success', 'Bình luận đã được thêm thành công!');
+        // Trả về thông tin bình luận dưới dạng JSON
+        return response()->json([
+            'comment' => $comment->NoiDung,
+            'created_at' => $comment->created_at->format('H:i d/m/Y'),
+            'username' => $comment->user ? $comment->user->TenDangNhap : 'Người dùng ẩn danh',
+        ]);
     }
-    
 }

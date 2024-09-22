@@ -16,7 +16,6 @@
 </head>
 <body class="bg-gray-100 p-6">
     <div class="container mx-auto">
-        <!-- Thanh điều hướng với các nút -->
         <div class="flex justify-between items-center mb-8">
             <h1 class="text-3xl font-bold">Danh Sách Bài Viết</h1>
 

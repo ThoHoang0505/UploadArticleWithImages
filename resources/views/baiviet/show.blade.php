@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chi tiết bài viết</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body class="bg-gray-100 p-6">
 
@@ -44,17 +45,20 @@
         @if($comments->isEmpty())
             <p>Chưa có bình luận nào.</p>
         @else
-            @foreach($comments as $comment)
-                <div class="border p-4 mb-2 rounded bg-gray-50">
-                    <p class="font-bold">{{ $comment->user ? $comment->user->TenDangNhap : 'Người dùng ẩn danh' }}:</p>
-                    <p>{{ $comment->NoiDung }}</p>
-                    <p class="text-gray-500 text-sm mt-1">Đăng lúc: {{ $comment->created_at->format('H:i d/m/Y') }}</p>
-                </div>
-            @endforeach
+            <div id="comments-list">
+                @foreach($comments as $comment)
+                    <div class="border p-4 mb-2 rounded bg-gray-50">
+                        <p class="font-bold">{{ $comment->user ? $comment->user->TenDangNhap : 'Người dùng ẩn danh' }}:</p>
+                        <p>{{ $comment->NoiDung }}</p>
+                        <p class="text-gray-500 text-sm mt-1">Đăng lúc: {{ $comment->created_at->format('H:i d/m/Y') }}</p>
+                    </div>
+                @endforeach
+            </div>
         @endif
+
         <!-- Form bình luận -->
         @auth
-            <form action="{{ route('comments.store', $baiviet->MaBT) }}" method="POST" class="mt-4">
+            <form id="commentForm" action="{{ route('comments.store', $baiviet->MaBT) }}" method="POST" class="mt-4">
                 @csrf
                 <textarea name="NoiDung" rows="3" class="w-full border rounded p-2" placeholder="Nhập bình luận..."></textarea>
                 <button type="submit" class="mt-2 inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">Bình luận</button>
@@ -72,6 +76,34 @@
     </div>
 
     <script>
+        $(document).ready(function() {
+            $('#commentForm').on('submit', function(e) {
+                e.preventDefault(); // Ngăn chặn tải lại trang
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        // Thêm bình luận mới vào danh sách
+                        $('#comments-list').prepend(`
+                            <div class="border p-4 mb-2 rounded bg-gray-50">
+                                <p class="font-bold">${response.username}:</p>
+                                <p>${response.comment}</p>
+                                <p class="text-gray-500 text-sm mt-1">Đăng lúc: ${response.created_at}</p>
+                            </div>
+                        `);
+                        // Xóa nội dung textarea
+                        $('textarea[name="NoiDung"]').val('');
+                    },
+                    error: function(xhr) {
+                        alert('Có lỗi xảy ra, vui lòng thử lại!');
+                    }
+                });
+            });
+        });
+
+        // Chuyển đổi oembed thành iframe
         document.addEventListener('DOMContentLoaded', function() {
             const oembedElements = document.querySelectorAll('oembed[url]');
             oembedElements.forEach(element => {

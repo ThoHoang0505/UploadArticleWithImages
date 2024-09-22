@@ -9,21 +9,21 @@ class BaiViet extends Model
 {
     use HasFactory;
 
-    protected $table = 'baiviet'; // Tên bảng
-    protected $primaryKey = 'MaBT'; // Đặt khóa chính là 'MaBT'
-    public $timestamps = false; // Nếu không có cột timestamps
+    protected $table = 'baiviet';
+    protected $primaryKey = 'MaBT';
+    public $timestamps = false;
 
-    // Các cột có thể được gán giá trị một cách mass-assignment
     protected $fillable = [
         'TieuDeBT',
-        'LoaiBT',
         'NoiDungBT',
         'AnhDaiDien',
         'NgayDang',
         'luot_xem',
+        'LoaiBT', // Chỉnh sửa từ MaLT thành LoaiBT
     ];
-    public function comments()
+
+    public function loaitin()
     {
-        return $this->hasMany(Comment::class, 'MaBT');
+        return $this->belongsTo(LoaiTin::class, 'MaLT');
     }
 }
