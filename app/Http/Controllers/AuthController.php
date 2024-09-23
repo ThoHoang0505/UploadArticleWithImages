@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    // Hiển thị form đăng ký
     public function showRegistrationForm()
     {
         return view('auth.register');
@@ -30,14 +29,12 @@ class AuthController extends Controller
             'GioiTinh' => 'required|string',
         ]);
     
-        // Tạo tài khoản
         $taiKhoan = TaiKhoan::create([
             'TenDangNhap' => $request->TenDangNhap,
             'MatKhau' => bcrypt($request->MatKhau),
             'Quyen' => 6,
         ]);
     
-        // Tạo độc giả
         DocGia::create([
             'TenDG' => $request->TenDG,
             'Email' => $request->Email,
@@ -45,7 +42,7 @@ class AuthController extends Controller
             'SDT' => $request->SDT,
             'DiaChi' => $request->DiaChi,
             'GioiTinh' => $request->GioiTinh,
-            'MaTK_DG' => $taiKhoan->MaTK, // Sử dụng khóa của tài khoản vừa tạo
+            'MaTK_DG' => $taiKhoan->MaTK, //Khóa ngoại MaTK_DG với MaTK
         ]);
     
         return redirect()->route('login')->with('success', 'Đăng ký thành công!');
@@ -55,27 +52,21 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    // Xử lý việc đăng nhập
     public function login(Request $request)
     {
-        // Validate thông tin đăng nhập
         $request->validate([
             'TenDangNhap' => 'required|string',
             'MatKhau' => 'required|string',
         ]);
     
-        // Kiểm tra đăng nhập
         $credentials = $request->only('TenDangNhap', 'MatKhau');
-    
-        // Lấy thông tin tài khoản từ cơ sở dữ liệu
+
         $taiKhoan = TaiKhoan::where('TenDangNhap', $credentials['TenDangNhap'])->first();
     
         if ($taiKhoan && Hash::check($credentials['MatKhau'], $taiKhoan->MatKhau)) {
-            // Nếu thông tin hợp lệ, thực hiện đăng nhập
             Auth::login($taiKhoan);
             return redirect()->route('baiviet.index');
         } else {
-            // Đăng nhập thất bại, trả về lỗi
             return redirect()->back()->withErrors(['login_error' => 'Sai tên đăng nhập hoặc mật khẩu.']);
         }
     }

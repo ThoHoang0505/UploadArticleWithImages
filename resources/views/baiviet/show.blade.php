@@ -10,7 +10,6 @@
 <body class="bg-gray-100 p-6">
 
     <div class="container mx-auto bg-white rounded-lg shadow-lg p-6 max-w-3xl">
-        <!-- Nút quay về trang index -->
         <div class="mb-6">
             <a href="{{ route('baiviet.index') }}" class="inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
                 Quay về trang chủ
@@ -32,14 +31,12 @@
             {!! $baiviet->NoiDungBT !!}
         </div>
 
-        <!-- Hiển thị thông báo thành công -->
         @if (session('success'))
             <div class="bg-green-500 text-white p-4 rounded mb-4">
                 {{ session('success') }}
             </div>
         @endif
 
-        <!-- Phần bình luận -->
         <h2 class="text-2xl mb-4">Bình luận</h2>
 
         @if($comments->isEmpty())
@@ -56,7 +53,6 @@
             </div>
         @endif
 
-        <!-- Form bình luận -->
         @auth
             <form id="commentForm" action="{{ route('comments.store', $baiviet->MaBT) }}" method="POST" class="mt-4">
                 @csrf
@@ -67,7 +63,6 @@
             <p class="mt-4">Bạn cần <a href="{{ route('login') }}" class="text-blue-500 underline">đăng nhập</a> để bình luận.</p>
         @endauth
 
-        <!-- Nút quay về trang index dưới cùng -->
         <div class="mt-8 text-center">
             <a href="{{ route('baiviet.index') }}" class="inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
                 Quay về trang chủ
@@ -78,14 +73,12 @@
     <script>
         $(document).ready(function() {
             $('#commentForm').on('submit', function(e) {
-                e.preventDefault(); // Ngăn chặn tải lại trang
-
+                e.preventDefault();
                 $.ajax({
                     url: $(this).attr('action'),
                     type: 'POST',
                     data: $(this).serialize(),
                     success: function(response) {
-                        // Thêm bình luận mới vào danh sách
                         $('#comments-list').prepend(`
                             <div class="border p-4 mb-2 rounded bg-gray-50">
                                 <p class="font-bold">${response.username}:</p>
@@ -93,7 +86,6 @@
                                 <p class="text-gray-500 text-sm mt-1">Đăng lúc: ${response.created_at}</p>
                             </div>
                         `);
-                        // Xóa nội dung textarea
                         $('textarea[name="NoiDung"]').val('');
                     },
                     error: function(xhr) {
@@ -103,7 +95,7 @@
             });
         });
 
-        // Chuyển đổi oembed thành iframe
+        // Chuyển đổi oembed thành iframe hiển thị youtube
         document.addEventListener('DOMContentLoaded', function() {
             const oembedElements = document.querySelectorAll('oembed[url]');
             oembedElements.forEach(element => {

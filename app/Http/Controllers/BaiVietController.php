@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BaiViet;
-use App\Models\LoaiTin; // Thêm model LoaiTin
+use App\Models\LoaiTin;
 use Illuminate\Http\Request;
 use App\Models\Comment;
 
@@ -20,7 +20,7 @@ class BaiVietController extends Controller
     try {
         $request->validate([
             'TieuDeBT' => 'required|max:255',
-            'loaiTin' => 'required|array|max:100', // Vẫn giữ mảng để kiểm tra
+            'loaiTin' => 'required|array|max:100',
             'NoiDungBT' => 'required',
             'AnhDaiDien' => 'required|image|max:2048',
         ]);
@@ -33,10 +33,9 @@ class BaiVietController extends Controller
         // Lấy tên loại tin từ mã loại tin
         $loaiTinNames = [];
         foreach ($request->loaiTin as $maLT) {
-            // Giả sử bạn đã có danh sách loại tin ở đây
-            $loaiTin = LoaiTin::find($maLT); // Lấy loại tin từ database theo mã
+            $loaiTin = LoaiTin::find($maLT);
             if ($loaiTin) {
-                $loaiTinNames[] = $loaiTin->TenLT; // Thêm tên loại tin vào mảng
+                $loaiTinNames[] = $loaiTin->TenLT;
             }
         }
 
@@ -55,7 +54,6 @@ class BaiVietController extends Controller
         return redirect()->route('baiviet.create')->with('error', 'Có lỗi xảy ra khi lưu bài viết: ' . $e->getMessage());
     }
 }
-    // Hiển thị danh sách bài viết
     public function index()
     {
         // Lấy tất cả bài viết từ bảng 'baiviet' theo thứ tự ngày đăng
@@ -63,7 +61,6 @@ class BaiVietController extends Controller
         return view('baiviet.index', compact('baiviets'));
     }
 
-    // Hiển thị chi tiết bài viết
     public function show($maBT)
     {
         $baiviet = BaiViet::findOrFail($maBT);

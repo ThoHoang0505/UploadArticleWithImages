@@ -12,12 +12,12 @@ class DocGia extends Model
     protected $fillable = [
         'TenDG',
         'Email',
-        'NgaySinh', // Thêm trường Ngày Sinh
-        'SDT',      // Thêm trường Số Điện Thoại
-        'DiaChi',   // Thêm trường Địa Chỉ
-        'GioiTinh', // Thêm trường Giới Tính
-        'MaTK_DG',  // Khóa ngoại liên kết với bảng taikhoan
+        'NgaySinh', 
+        'SDT',    
+        'DiaChi',  
+        'GioiTinh', 
+        'MaTK_DG',  
     ];
 
-    public $timestamps = false; // Tắt timestamps nếu không dùng
+    public $timestamps = false; 
 }

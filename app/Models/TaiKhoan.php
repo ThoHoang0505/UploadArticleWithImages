@@ -8,11 +8,11 @@ use Illuminate\Auth\Authenticatable as AuthenticatableTrait;
 
 class TaiKhoan extends Model implements Authenticatable
 {
-    use AuthenticatableTrait; // Thêm trait này
+    use AuthenticatableTrait;
 
     protected $table = 'taikhoan';
     protected $primaryKey = 'MaTK';
     protected $fillable = ['TenDangNhap', 'MatKhau', 'Quyen'];
 
-    public $timestamps = false; // Nếu bạn không có timestamps
+    public $timestamps = false;
 }

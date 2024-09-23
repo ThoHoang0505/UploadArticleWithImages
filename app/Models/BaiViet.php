@@ -19,7 +19,7 @@ class BaiViet extends Model
         'AnhDaiDien',
         'NgayDang',
         'luot_xem',
-        'LoaiBT', // Chỉnh sửa từ MaLT thành LoaiBT
+        'LoaiBT',
     ];
 
     public function loaitin()

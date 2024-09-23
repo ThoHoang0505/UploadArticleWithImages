@@ -12,21 +12,17 @@
         <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
             <h2 class="text-2xl font-bold text-center text-gray-700 mb-6">Đăng nhập</h2>
 
-            <!-- Hiển thị thông báo thành công sau khi đăng ký -->
             @if (session('success'))
                 <p class="text-green-600 text-center mb-4">{{ session('success') }}</p>
             @endif
 
-            <!-- Hiển thị thông báo lỗi khi đăng nhập không thành công -->
             @if ($errors->has('login_error'))
                 <p class="text-red-600 text-center mb-4">{{ $errors->first('login_error') }}</p>
             @endif
 
-            <!-- Form đăng nhập -->
             <form action="{{ route('login') }}" method="POST">
                 @csrf
 
-                <!-- Tên đăng nhập -->
                 <div class="mb-4">
                     <label for="TenDangNhap" class="block text-sm font-medium text-gray-700">Tên đăng nhập</label>
                     <input type="text" id="TenDangNhap" name="TenDangNhap" required
@@ -34,7 +30,6 @@
                            placeholder="Nhập tên đăng nhập">
                 </div>
 
-                <!-- Mật khẩu -->
                 <div class="mb-4">
                     <label for="MatKhau" class="block text-sm font-medium text-gray-700">Mật khẩu</label>
                     <input type="password" id="MatKhau" name="MatKhau" required
@@ -42,7 +37,6 @@
                            placeholder="Nhập mật khẩu">
                 </div>
 
-                <!-- Nút đăng nhập -->
                 <div class="flex justify-center">
                     <button type="submit" 
                             class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
@@ -51,7 +45,6 @@
                 </div>
             </form>
 
-            <!-- Đăng ký mới -->
             <p class="text-center text-sm text-gray-600 mt-4">
                 Chưa có tài khoản? <a href="{{ route('register') }}" class="text-indigo-600 hover:text-indigo-500">Đăng ký ngay</a>.
             </p>
