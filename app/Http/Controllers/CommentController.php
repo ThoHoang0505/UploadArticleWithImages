@@ -15,10 +15,9 @@ class CommentController extends Controller
     
         $comment = new Comment();
         $comment->MaBT = $maBT;
-        $comment->MaTK_DG = Auth::id(); // Lấy ID của người dùng đã đăng nhập
+        $comment->MaTK_DG = Auth::id();
         $comment->NoiDung = $request->NoiDung;
         $comment->save();
-    
         // Trả về thông tin bình luận dưới dạng JSON
         return response()->json([
             'comment' => $comment->NoiDung,

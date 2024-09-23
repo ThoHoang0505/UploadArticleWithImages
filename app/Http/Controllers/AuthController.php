@@ -14,8 +14,6 @@ class AuthController extends Controller
     {
         return view('auth.register');
     }
-
-    // Xử lý đăng ký
     public function register(Request $request)
     {
         $request->validate([
